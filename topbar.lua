@@ -2,6 +2,7 @@ local wibox = require("wibox")
 local theme = require("beautiful")
 local awful = require("awful")
 local gears = require("gears")
+local utils = require("utils")
 
 root.elements = root.elements or {}
 
@@ -20,6 +21,7 @@ function make_launcher(s)
       forced_height = theme.topbar.h,
       {
         layout = wibox.container.background,
+        shape = utils.rounded(5),
         bg = theme.colors.x4,
         fg = theme.colors.w,
         {
