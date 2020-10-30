@@ -1,5 +1,15 @@
 local awful = require("awful")
 
+-- Modkeys
+modkey = "Mod4";
+altkey = "Mod1";
+ctrlkey = "Control";
+shiftkey = "Shift";
+
+terminal = "kitty";
+editor = os.getenv("EDITOR") or "nano";
+editor_cmd = terminal .. " -e " .. editor;
+
 -- {{{ Mouse bindings
 awful.mouse.append_global_mousebindings({
     awful.button({ }, 3, function () mymainmenu:toggle() end),
@@ -29,7 +39,7 @@ awful.keyboard.append_global_keybindings({
               {description = "view previous", group = "tag"}),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext,
               {description = "view next", group = "tag"}),
-    awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
+    awful.key({ modkey,           }, "Tab", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
 })
 
@@ -47,7 +57,7 @@ awful.keyboard.append_global_keybindings({
         end,
         {description = "focus previous by index", group = "client"}
     ),
-    awful.key({ modkey,           }, "Tab",
+    awful.key({ altkey,           }, "Tab",
         function ()
             awful.client.focus.history.previous()
             if client.focus then

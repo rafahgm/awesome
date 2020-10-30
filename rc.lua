@@ -30,13 +30,6 @@ local theme_name = themes[6]
 beautiful.init(gears.filesystem.get_configuration_dir().."themes/"..theme_name.."/theme.lua")
 -- }}}
 
--- {{{ Variable definitions
-terminal = "kitty"
-editor = os.getenv("EDITOR") or "nano"
-editor_cmd = terminal .. " -e " .. editor
-modkey = "Mod4"
--- }}}
-
 -- {{{ Tag
 -- Table of layouts to cover with awful.layout.inc, order matters.
 tag.connect_signal("request::default_layouts", function()
