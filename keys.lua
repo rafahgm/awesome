@@ -12,26 +12,15 @@ awful.mouse.append_global_mousebindings({
 
 -- General Awesome keys
 awful.keyboard.append_global_keybindings({
-    awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
-              {description = "show main menu", group = "awesome"}),
-    awful.key({ modkey, "Control" }, "r", awesome.restart,
-              {description = "reload awesome", group = "awesome"}),
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit,
-              {description = "quit awesome", group = "awesome"}),
-    awful.key({ modkey }, "x",
-              function ()
-                  awful.prompt.run {
-                    prompt       = "Run Lua code: ",
-                    textbox      = awful.screen.focused().mypromptbox.widget,
-                    exe_callback = awful.util.eval,
-                    history_path = awful.util.get_cache_dir() .. "/history_eval"
-                  }
-              end,
-              {description = "lua execute prompt", group = "awesome"}),
-    awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
-              {description = "open a terminal", group = "launcher"}),
-    awful.key({ modkey }, "p", function() awful.spawn("rofi -show drun") end,
-              {description = "show the menubar", group = "launcher"}),
+    awful.key({ modkey, "Control" }, "r", awesome.restart),
+    awful.key({ modkey, "Shift" }, "q", awesome.quit),
+    awful.key({ modkey }, "Return", function () awful.spawn(terminal) end),
+    awful.key({ modkey }, "p", function() awful.spawn("rofi -show drun") end),
+
+    -- Multimedia keys
+    awful.key({ }, "XF86AudioLowerVolume", function() awful.spawn("pamixer -d 5") end),
+    awful.key({ }, "XF86AudioRaiseVolume", function() awful.spawn("pamixer -i 5") end),
+    awful.key({ }, "XF86AudioMute", function() awful.spawn("pamixer -t") end),
 })
 
 -- Tags related keybindings
