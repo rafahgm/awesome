@@ -11,7 +11,7 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local ruled = require("ruled")
 local menubar = require("menubar")
-local hotkeys_popup = require("awful.hotkeys_popup")
+local utils = require("utils")
 
 -- {{{ Error handling
 naughty.connect_signal("request::display_error", function(message, startup)
@@ -27,7 +27,7 @@ end)
 -- {{{ Themes
 local themes = {"default", "gtk", "sky", "xresources", "zenburn", "transparent"}
 local theme_name = themes[6]
-beautiful.init(gears.filesystem.get_configuration_dir() .. "themes/" .. theme_name .. "/theme.lua")
+beautiful.init(gears.filesystem.get_configuration_dir().."themes/"..theme_name.."/theme.lua")
 -- }}}
 
 -- {{{ Variable definitions
@@ -58,10 +58,7 @@ tag.connect_signal("request::default_layouts", function()
 end)
 -- }}}
 
--- {{{ Wibar
-
--- Create a textclock widget
-mytextclock = wibox.widget.textclock()
+-- {{{ Wallpaper
 
 screen.connect_signal("request::wallpaper", function(s)
     -- Wallpaper
@@ -76,62 +73,9 @@ screen.connect_signal("request::wallpaper", function(s)
 end)
 
 screen.connect_signal("request::desktop_decoration", function(s)
-    -- Each screen has its own tag table.
-    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[2])
-
-    -- Create an imagebox widget which will contain an icon indicating which layout we're using.
-    -- We need one layoutbox per screen.
-    s.mylayoutbox = awful.widget.layoutbox {
-        screen  = s,
-        buttons = {
-            awful.button({ }, 1, function () awful.layout.inc( 1) end),
-            awful.button({ }, 3, function () awful.layout.inc(-1) end),
-            awful.button({ }, 4, function () awful.layout.inc(-1) end),
-            awful.button({ }, 5, function () awful.layout.inc( 1) end),
-        }
-    }
-
-    -- Create a taglist widget
-    s.mytaglist = awful.widget.taglist {
-        screen  = s,
-        filter  = awful.widget.taglist.filter.all,
-        buttons = {
-            awful.button({ }, 1, function(t) t:view_only() end),
-            awful.button({ modkey }, 1, function(t)
-                                            if client.focus then
-                                                client.focus:move_to_tag(t)
-                                            end
-                                        end),
-            awful.button({ }, 3, awful.tag.viewtoggle),
-            awful.button({ modkey }, 3, function(t)
-                                            if client.focus then
-                                                client.focus:toggle_tag(t)
-                                            end
-                                        end),
-            awful.button({ }, 4, function(t) awful.tag.viewprev(t.screen) end),
-            awful.button({ }, 5, function(t) awful.tag.viewnext(t.screen) end),
-        }
-    }
-
-    -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s })
-
-    -- Add widgets to the wibox
-    s.mywibox.widget = {
-        layout = wibox.layout.align.horizontal,
-        { -- Left widgets
-            layout = wibox.layout.fixed.horizontal,
-            s.mytaglist,
-        },
-        nil,
-        { -- Right widgets
-            layout = wibox.layout.fixed.horizontal,
-            wibox.widget.systray(),
-            mytextclock,
-            s.mylayoutbox,
-        },
-    }
+    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
 end)
+
 -- }}}
 
 -- Enable sloppy focus, so that focus follows mouse.
@@ -145,3 +89,4 @@ require("keys")
 require("rules")
 require("titlebars")
 require("notifications")
+require("topbar")()
