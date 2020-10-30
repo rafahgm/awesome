@@ -7,6 +7,7 @@ local theme_path = gfs.get_configuration_dir().."themes/transparent/"
 
 local theme = {}
 
+theme.useless_gap = 6
 -- Global
 theme.global = {
     m = 5,
