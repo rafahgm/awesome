@@ -65,16 +65,11 @@ screen.connect_signal("request::wallpaper", function(s)
     end
 end)
 
-screen.connect_signal("request::desktop_decoration", function(s)
+_G.screen.connect_signal("request::desktop_decoration", function(s)
     awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[2])
 end)
 
 -- }}}
-
--- Enable sloppy focus, so that focus follows mouse.
-client.connect_signal("mouse::enter", function(c)
-    c:activate { context = "mouse_enter", raise = false }
-end)
 
 
 -- Configs
