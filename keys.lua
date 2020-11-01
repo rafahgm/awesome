@@ -1,14 +1,14 @@
 local awful = require("awful")
 
 -- Modkeys
-modkey = "Mod4";
-altkey = "Mod1";
-ctrlkey = "Control";
-shiftkey = "Shift";
+local modkey = "Mod4";
+local altkey = "Mod1";
+local ctrlkey = "Control";
+local shiftkey = "Shift";
 
-terminal = "kitty";
-editor = os.getenv("EDITOR") or "nano";
-editor_cmd = terminal .. " -e " .. editor;
+local terminal = "urxvt";
+local editor = os.getenv("EDITOR") or "nano";
+local editor_cmd = terminal .. " -e " .. editor;
 
 -- {{{ Mouse bindings
 -- awful.mouse.append_global_mousebindings({
@@ -31,6 +31,9 @@ awful.keyboard.append_global_keybindings({
     awful.key({ }, "XF86AudioLowerVolume", function() awful.spawn("pamixer -d 5") end),
     awful.key({ }, "XF86AudioRaiseVolume", function() awful.spawn("pamixer -i 5") end),
     awful.key({ }, "XF86AudioMute", function() awful.spawn("pamixer -t") end),
+    awful.key({ }, "XF86AudioNext", function() awful.spawn("playerctl next") end),
+    awful.key({ }, "XF86AudioPlay", function() awful.spawn("playerctl play-pause") end),
+    awful.key({ }, "XF86AudioPrev", function() awful.spawn("playerctl previous") end),
 })
 
 -- Tags related keybindings
