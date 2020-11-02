@@ -142,11 +142,16 @@ local function make_taglist(s)
       self.markup = utils.colorize_text(name, "#FFFFFF", "#FEFEFE40")
     end
   end
+
+  local taglist_buttons = gears.table.join(
+    awful.button({}, 1, function(t) t:view_only() end)
+  )
   
   local tags = awful.widget.taglist{
     screen = s,
     filter = awful.widget.taglist.filter.all,
     layout = wibox.layout.fixed.horizontal,
+    buttons = taglist_buttons,
     widget_template = {
       widget = wibox.widget.textbox,
       font = theme.font,

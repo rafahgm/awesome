@@ -14,6 +14,7 @@ theme.global = {
 }
 -- Colors
 theme.colors = {
+    x0 = xrdb.color0,
     x1 = xrdb.color1,
     x2 = xrdb.color2,
     x3 = xrdb.color3,
@@ -39,7 +40,8 @@ theme.icons = {
     arch = "󰣇",
     time = "󰥔",
     date = "󰃮",
-    power = "󰐥"
+    power = "󰐥",
+    volume_max = "󰕾",
 }
 
 theme.wallpaper = theme_path.."background.jpg"
