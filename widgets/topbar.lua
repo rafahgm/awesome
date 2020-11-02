@@ -4,10 +4,6 @@ local awful = require("awful")
 local gears = require("gears")
 local utils = require("utils")
 
-local root = {
-  elements = {}
-}
-
 local function make_launcher(s)
   local launcher = wibox({
     screen = s,
@@ -46,8 +42,8 @@ local function make_launcher(s)
   end)
 ));
 
-root.elements.launcher = root.elements.launcher or {};
-root.elements.launcher[s.index] = launcher;
+_G.root.elements.launcher = _G.root.elements.launcher or {};
+_G.root.elements.launcher[s.index] = launcher;
 end
 
 local function make_date(s) 
@@ -75,8 +71,8 @@ local function make_date(s)
   date.x = (s.workarea.width - theme.topbar.dw) - (theme.topbar.w + theme.global.m) - theme.global.m;
   date.y = theme.global.m;
   
-  root.elements.date = root.elements.date or {}
-  root.elements.date[s.index] = date
+  _G.root.elements.date = _G.root.elements.date or {}
+  _G.root.elements.date[s.index] = date
 end
 
 local function make_power(s)
@@ -113,12 +109,12 @@ local function make_power(s)
   
   power:buttons(gears.table.join(
   awful.button({}, 1, function()
-    if root.elements.powermenu.show then root.elements.powermenu.show() end
+    if _G.root.elements.powermenu.show then _G.root.elements.powermenu.show() end
   end)
 ))
 
-root.elements.power = root.elements.power or {};
-root.elements.power[s.index] = power;
+_G.root.elements.power = _G.root.elements.power or {};
+_G.root.elements.power[s.index] = power;
 end
 
 local function make_taglist(s)
@@ -172,8 +168,8 @@ local function make_taglist(s)
     type = "menu",
     visible = true,
     height = theme.topbar.h,
-    width = 360,
-    bg = "#FFFFFF00",
+    width = 362,
+    bg = "#00FFFF00",
     x = s.workarea.x + theme.global.m + theme.global.m + theme.topbar.w,
     y = theme.global.m,
     struts = {top = theme.global.m},
@@ -185,15 +181,71 @@ local function make_taglist(s)
     tags
   }
   
-  root.elements.taglist = root.elements.taglist or {}
-  root.elements.taglist[s.index] = taglist
+  _G.root.elements.taglist = _G.root.elements.taglist or {}
+  _G.root.elements.taglist[s.index] = taglist
+end
+
+local function make_icon(i, f, b) 
+  local icon = wibox.widget.textbox()
+  icon.forced_width = theme.topbar.w
+  icon.font = theme.fonts.im
+  icon.markup = utils.colorize_text(i, f, b)
+
+  local container = wibox.widget {
+    layout = wibox.container.background,
+  }
+
+  icon.update = function(t,c) icon.markup = "<span color='"..c.."'>"..t.."</span>" end
+  return icon
+end
+
+local function make_utilities(s)
+  local width = theme.global.m
+  for _,v in pairs(theme.topbar.utilities) do
+    if v then width = width + theme.topbar.w end
+  end
+
+  local utilities = wibox {
+    screen = s,
+    width = width,
+    visible = true,
+    type = "utility",
+    bg = "#FFFFFF70",
+    height = theme.topbar.h,
+  }
+
+  local layout = wibox.layout.fixed.horizontal();
+
+  if theme.topbar.utilities.wifi then
+    _G.root.elements.wifi_icons = _G.root.elements.wifi_icons or {}
+    _G.root.elements.wifi_icons[s.index] = make_icon(theme.icons.wifi, theme.colors.w, theme.colors.t)
+    layout:add(_G.root.elements.wifi_icons[s.index])
+  end
+  
+  if theme.topbar.utilities.battery then
+    _G.root.elements.battery_icons = _G.root.elements.battery_icons or {}
+    _G.root.elements.battery_icons[s.index] = make_icon(theme.icons.battery.full, theme.colors.w, theme.colors.t)
+    layout:add(_G.root.elements.battery_icons[s.index])
+  end
+
+  utilities:struts{top = theme.global.m}
+  utilities.x = ((s.workarea.width / 2) - (width / 2))
+  utilities.y = theme.global.m
+
+  utilities:setup {
+    layout = wibox.container.margin,
+    right = theme.global.m,
+    left = theme.global.m,
+    layout
+  }
 end
 
 return function()
   awful.screen.connect_for_each_screen(function(s)
-    if not root.elements.launcher or not root.elements.launcher[s.index] then make_launcher(s) end
-    if not root.elements.date or not root.elements.date[s.index] then make_date(s) end
-    if not root.elements.power or not root.elements.power[s.index] then make_power(s) end
-    if not root.elements.taglist or not root.elements.taglist[s.index] then make_taglist(s) end
+    if not _G.root.elements.utilities or not _G._G.root.elements.utilities[s.index] then make_utilities(s) end
+    if not _G.root.elements.launcher or not _G.root.elements.launcher[s.index] then make_launcher(s) end
+    if not _G.root.elements.date or not _G.root.elements.date[s.index] then make_date(s) end
+    if not _G.root.elements.power or not _G.root.elements.power[s.index] then make_power(s) end
+    if not _G.root.elements.taglist or not _G.root.elements.taglist[s.index] then make_taglist(s) end
   end)
 end

@@ -25,7 +25,7 @@ theme.colors = {
     x8 = xrdb.color8,
     x9 = xrdb.color9,
     w = "#FEFEFE",
-    t = "#00000000",
+    t = "#FFFFFF01",
     b = "#0F0F0F",
 }
 
@@ -42,6 +42,10 @@ theme.icons = {
     date = "󰃮",
     power = "󰐥",
     volume_max = "󰕾",
+    wifi = "󰖩",
+    battery = {
+        full = "󰁹"
+    }
 }
 
 theme.wallpaper = theme_path.."background.jpg"
@@ -54,7 +58,13 @@ theme.icon_theme = nil
 theme.topbar = {
     w = 30,
     h = 30,
-    dw = 230,
+    dw = 240,
+    utilities = {
+        wifi = true,
+        battery = true,
+        pac = false,
+        mem = false,
+    }
 }
 
 return theme
