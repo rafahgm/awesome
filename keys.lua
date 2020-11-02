@@ -1,4 +1,5 @@
 local awful = require("awful")
+local volume = require("workers.volume")
 
 -- Modkeys
 local modkey = "Mod4";
@@ -22,15 +23,15 @@ local editor_cmd = terminal .. " -e " .. editor;
 
 -- General Awesome keys
 awful.keyboard.append_global_keybindings({
-    awful.key({ modkey, "Control" }, "r", awesome.restart),
-    awful.key({ modkey, "Shift" }, "q", awesome.quit),
+    awful.key({ modkey, "Control" }, "r", _G.awesome.restart),
+    awful.key({ modkey, "Shift" }, "q", _G.awesome.quit),
     awful.key({ modkey }, "Return", function () awful.spawn(terminal) end),
     awful.key({ modkey }, "p", function() awful.spawn("rofi -show drun") end),
 
     -- Multimedia keys
-    awful.key({ }, "XF86AudioLowerVolume", function() awful.spawn("pamixer -d 5") end),
-    awful.key({ }, "XF86AudioRaiseVolume", function() awful.spawn("pamixer -i 5") end),
-    awful.key({ }, "XF86AudioMute", function() awful.spawn("pamixer -t") end),
+    awful.key({ }, "XF86AudioLowerVolume", volume.down),
+    awful.key({ }, "XF86AudioRaiseVolume", volume.up),
+    awful.key({ }, "XF86AudioMute", volume.mute),
     awful.key({ }, "XF86AudioNext", function() awful.spawn("playerctl next") end),
     awful.key({ }, "XF86AudioPlay", function() awful.spawn("playerctl play-pause") end),
     awful.key({ }, "XF86AudioPrev", function() awful.spawn("playerctl previous") end),
@@ -63,8 +64,8 @@ awful.keyboard.append_global_keybindings({
     awful.key({ altkey,           }, "Tab",
         function ()
             awful.client.focus.history.previous()
-            if client.focus then
-                client.focus:raise()
+            if _G.client.focus then
+                _G.client.focus:raise()
             end
         end,
         {description = "go back", group = "client"}),
@@ -143,10 +144,10 @@ awful.keyboard.append_global_keybindings({
         description = "move focused client to tag",
         group       = "tag",
         on_press    = function (index)
-            if client.focus then
-                local tag = client.focus.screen.tags[index]
+            if _G.client.focus then
+                local tag = _G.client.focus.screen.tags[index]
                 if tag then
-                    client.focus:move_to_tag(tag)
+                    _G.client.focus:move_to_tag(tag)
                 end
             end
         end,
@@ -157,10 +158,10 @@ awful.keyboard.append_global_keybindings({
         description = "toggle focused client on tag",
         group       = "tag",
         on_press    = function (index)
-            if client.focus then
-                local tag = client.focus.screen.tags[index]
+            if _G.client.focus then
+                local tag = _G.client.focus.screen.tags[index]
                 if tag then
-                    client.focus:toggle_tag(tag)
+                    _G.client.focus:toggle_tag(tag)
                 end
             end
         end,
@@ -179,7 +180,7 @@ awful.keyboard.append_global_keybindings({
     }
 })
 
-client.connect_signal("request::default_mousebindings", function()
+_G.client.connect_signal("request::default_mousebindings", function()
     awful.mouse.append_client_mousebindings({
         awful.button({ }, 1, function (c)
             c:activate { context = "mouse_click" }
@@ -193,7 +194,7 @@ client.connect_signal("request::default_mousebindings", function()
     })
 end)
 
-client.connect_signal("request::default_keybindings", function()
+_G.client.connect_signal("request::default_keybindings", function()
     awful.keyboard.append_client_keybindings({
         awful.key({ modkey,           }, "f",
             function (c)

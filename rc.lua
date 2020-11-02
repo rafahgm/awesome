@@ -6,12 +6,11 @@ pcall(require, "luarocks.loader")
 local gears = require("gears")
 local awful = require("awful")
 require("awful.autofocus")
-local wibox = require("wibox")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
-local ruled = require("ruled")
-local menubar = require("menubar")
 local utils = require("utils")
+
+_G.root.elements = {}
 
 -- {{{ Error handling
 naughty.connect_signal("request::display_error", function(message, startup)
@@ -32,7 +31,7 @@ beautiful.init(gears.filesystem.get_configuration_dir().."themes/"..theme_name..
 
 -- {{{ Tag
 -- Table of layouts to cover with awful.layout.inc, order matters.
-tag.connect_signal("request::default_layouts", function()
+_G.tag.connect_signal("request::default_layouts", function()
     awful.layout.append_default_layouts({
         awful.layout.suit.floating,
         awful.layout.suit.tile,
@@ -53,7 +52,7 @@ end)
 
 -- {{{ Wallpaper
 
-screen.connect_signal("request::wallpaper", function(s)
+_G.screen.connect_signal("request::wallpaper", function(s)
     -- Wallpaper
     if beautiful.wallpaper then
         local wallpaper = beautiful.wallpaper
@@ -77,4 +76,5 @@ require("keys")
 require("rules")
 require("titlebars")
 require("notifications")
-require("topbar")()
+require("widgets.topbar")()
+require("widgets.volumeosd")()
