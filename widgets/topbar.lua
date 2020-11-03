@@ -200,7 +200,7 @@ local function make_icon(i, f, b)
 end
 
 local function make_utilities(s)
-  local width = theme.global.m
+  local width = theme.global.m + 100
   for _,v in pairs(theme.topbar.utilities) do
     if v then width = width + theme.topbar.w end
   end
@@ -223,8 +223,23 @@ local function make_utilities(s)
   end
   
   if theme.topbar.utilities.battery then
+    local battery_widget = wibox.widget {
+      layout = wibox.layout.fixed.horizontal,
+      {
+        id = "battery_icon",
+        widget = wibox.widget.textbox,
+        text = theme.icons.battery.full,
+        font = theme.fonts.im,
+      },
+      {
+        id = "battery_text",
+        widget = wibox.widget.textbox,
+        text = "50%",
+        font = theme.font,
+      }
+    }
     _G.root.elements.battery_icons = _G.root.elements.battery_icons or {}
-    _G.root.elements.battery_icons[s.index] = make_icon(theme.icons.battery.full, theme.colors.w, theme.colors.t)
+    _G.root.elements.battery_icons[s.index] = battery_widget
     layout:add(_G.root.elements.battery_icons[s.index])
   end
 

@@ -44,7 +44,12 @@ theme.icons = {
     volume_max = "󰕾",
     wifi = "󰖩",
     battery = {
-        full = "󰁹"
+        charging = {
+            full = "󰂄"
+        },
+        discharging = {
+            full = "󰁹"
+        }
     }
 }
 
