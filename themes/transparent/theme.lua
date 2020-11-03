@@ -50,6 +50,15 @@ theme.icons = {
         discharging = {
             full = "󰁹"
         }
+    },
+    volume = {
+        high = "󰕾",
+        medium = "󰖀",
+        low = "󰕿",
+        mute = "󰝟",
+        off = "󰖁",
+        up = "󰝝",
+        down = "󰝞"
     }
 }
 
@@ -69,6 +78,7 @@ theme.topbar = {
         battery = true,
         pac = false,
         mem = false,
+        volume = true,
     }
 }
 

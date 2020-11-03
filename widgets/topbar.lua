@@ -4,6 +4,8 @@ local awful = require("awful")
 local gears = require("gears")
 local utils = require("utils")
 
+-- TODO: Modularize topbar, split widgets into modules
+
 local function make_launcher(s)
   local launcher = wibox({
     screen = s,
@@ -236,9 +238,44 @@ local function make_utilities(s)
         font = theme.font,
       }
     }
+    
+    local battery_container = wibox.widget {
+      layout = wibox.container.margin,
+      left = 10,
+      right = 10,
+      battery_widget
+    }
     _G.root.elements.battery_icons = _G.root.elements.battery_icons or {}
     _G.root.elements.battery_icons[s.index] = battery_widget
-    layout:add(_G.root.elements.battery_icons[s.index])
+    layout:add(battery_container)
+  end
+  
+  if theme.topbar.utilities.volume then 
+    local volume_widget = wibox.widget {
+      layout = wibox.layout.fixed.horizontal,
+      {
+        id = "volume_icon",
+        widget = wibox.widget.textbox,
+        text = theme.icons.volume.high,
+        font = theme.fonts.im,
+      },
+      {
+        id = "volume_text",
+        widget = wibox.widget.textbox,
+        text = " 100%",
+        font = theme.font,
+      }
+    }
+    
+    local volume_container = wibox.widget {
+      layout = wibox.container.margin,
+      left = 10,
+      right = 10,
+      volume_widget
+    }
+    _G.root.elements.volume_widget = _G.root.elements.volume_widget or {}
+    _G.root.elements.volume_widget[s.index] = volume_widget
+    layout:add(volume_container)
   end
   
   utilities:struts{top = theme.global.m}
