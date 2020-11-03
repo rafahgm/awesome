@@ -7,7 +7,7 @@ local altkey = "Mod1";
 local ctrlkey = "Control";
 local shiftkey = "Shift";
 
-local terminal = "urxvt";
+local terminal = "alacritty";
 local editor = os.getenv("EDITOR") or "nano";
 local editor_cmd = terminal .. " -e " .. editor;
 
@@ -26,7 +26,7 @@ awful.keyboard.append_global_keybindings({
     awful.key({ modkey, "Control" }, "r", _G.awesome.restart),
     awful.key({ modkey, "Shift" }, "q", _G.awesome.quit),
     awful.key({ modkey }, "Return", function () awful.spawn(terminal) end),
-    awful.key({ modkey }, "p", function() awful.spawn("rofi -show drun") end),
+    awful.key({ modkey }, "space", function() awful.spawn("rofi -show drun") end),
 
     -- Multimedia keys
     awful.key({ }, "XF86AudioLowerVolume", volume.down),
@@ -104,9 +104,9 @@ awful.keyboard.append_global_keybindings({
               {description = "increase the number of columns", group = "layout"}),
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1, nil, true)    end,
               {description = "decrease the number of columns", group = "layout"}),
-    awful.key({ modkey,           }, "space", function () awful.layout.inc( 1)                end,
+    awful.key({ modkey, altkey}, "space", function () awful.layout.inc( 1)                end,
               {description = "select next", group = "layout"}),
-    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                end,
+    awful.key({ modkey, shiftkey}, "space", function () awful.layout.inc(-1)                end,
               {description = "select previous", group = "layout"}),
 })
 
@@ -202,7 +202,7 @@ _G.client.connect_signal("request::default_keybindings", function()
                 c:raise()
             end,
             {description = "toggle fullscreen", group = "client"}),
-        awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
+        awful.key({ modkey   }, "w",      function (c) c:kill()                         end,
                 {description = "close", group = "client"}),
         awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
                 {description = "toggle floating", group = "client"}),
