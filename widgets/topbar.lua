@@ -138,51 +138,51 @@ local function make_taglist(s)
       self.markup = utils.colorize_text(name, "#FFFFFF", "#FEFEFE40")
     end
   end
-
+  
   local taglist_buttons = gears.table.join(
-    awful.button({}, 1, function(t) t:view_only() end)
-  )
-  
-  local tags = awful.widget.taglist{
-    screen = s,
-    filter = awful.widget.taglist.filter.all,
-    layout = wibox.layout.fixed.horizontal,
-    buttons = taglist_buttons,
-    widget_template = {
-      widget = wibox.widget.textbox,
-      font = theme.font,
-      height = theme.topbar.h,
-      create_callback = function(self, tag, index, _)
-        self.align = "center"
-        self.valign = "center"
-        update_taglist(self, tag, index)
-      end,
-      update_callback = function(self, tag, index, _)
-        update_taglist(self, tag, index)
-      end
-    },
-  }
-  
-  local taglist = wibox({
-    screen = s,
-    type = "menu",
-    visible = true,
+  awful.button({}, 1, function(t) t:view_only() end)
+)
+
+local tags = awful.widget.taglist{
+  screen = s,
+  filter = awful.widget.taglist.filter.all,
+  layout = wibox.layout.fixed.horizontal,
+  buttons = taglist_buttons,
+  widget_template = {
+    widget = wibox.widget.textbox,
+    font = theme.font,
     height = theme.topbar.h,
-    width = 362,
-    bg = "#00FFFF00",
-    x = s.workarea.x + theme.global.m + theme.global.m + theme.topbar.w,
-    y = theme.global.m,
-    struts = {top = theme.global.m},
-  })
-  
-  taglist:setup{
-    layout = wibox.container.place,
-    valign = "center",
-    tags
-  }
-  
-  _G.root.elements.taglist = _G.root.elements.taglist or {}
-  _G.root.elements.taglist[s.index] = taglist
+    create_callback = function(self, tag, index, _)
+      self.align = "center"
+      self.valign = "center"
+      update_taglist(self, tag, index)
+    end,
+    update_callback = function(self, tag, index, _)
+      update_taglist(self, tag, index)
+    end
+  },
+}
+
+local taglist = wibox({
+  screen = s,
+  type = "menu",
+  visible = true,
+  height = theme.topbar.h,
+  width = 362,
+  bg = "#00FFFF00",
+  x = s.workarea.x + theme.global.m + theme.global.m + theme.topbar.w,
+  y = theme.global.m,
+  struts = {top = theme.global.m},
+})
+
+taglist:setup{
+  layout = wibox.container.place,
+  valign = "center",
+  tags
+}
+
+_G.root.elements.taglist = _G.root.elements.taglist or {}
+_G.root.elements.taglist[s.index] = taglist
 end
 
 local function make_icon(i, f, b) 
@@ -190,21 +190,18 @@ local function make_icon(i, f, b)
   icon.forced_width = theme.topbar.w
   icon.font = theme.fonts.im
   icon.markup = utils.colorize_text(i, f, b)
-
+  
   local container = wibox.widget {
     layout = wibox.container.background,
   }
-
+  
   icon.update = function(t,c) icon.markup = "<span color='"..c.."'>"..t.."</span>" end
   return icon
 end
 
 local function make_utilities(s)
-  local width = theme.global.m + 100
-  for _,v in pairs(theme.topbar.utilities) do
-    if v then width = width + theme.topbar.w end
-  end
-
+  local width = 500
+  
   local utilities = wibox {
     screen = s,
     width = width,
@@ -212,10 +209,11 @@ local function make_utilities(s)
     type = "utility",
     bg = "#FFFFFF70",
     height = theme.topbar.h,
+    valign = "center",
   }
-
+  
   local layout = wibox.layout.fixed.horizontal();
-
+  
   if theme.topbar.utilities.wifi then
     _G.root.elements.wifi_icons = _G.root.elements.wifi_icons or {}
     _G.root.elements.wifi_icons[s.index] = make_icon(theme.icons.wifi, theme.colors.w, theme.colors.t)
@@ -242,16 +240,15 @@ local function make_utilities(s)
     _G.root.elements.battery_icons[s.index] = battery_widget
     layout:add(_G.root.elements.battery_icons[s.index])
   end
-
+  
   utilities:struts{top = theme.global.m}
   utilities.x = ((s.workarea.width / 2) - (width / 2))
   utilities.y = theme.global.m
-
+  
   utilities:setup {
-    layout = wibox.container.margin,
-    right = theme.global.m,
-    left = theme.global.m,
-    layout
+    layout = wibox.container.place,
+    valign = "center",
+    layout,
   }
 end
 
