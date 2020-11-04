@@ -22,6 +22,9 @@ naughty.connect_signal("request::display_error", function(message, startup)
 end)
 -- }}}
 
+-- Autostart programs
+awful.spawn.with_shell("~/.config/awesome/autorun.sh")
+
 
 -- {{{ Themes
 local themes = {"default", "gtk", "sky", "xresources", "zenburn", "transparent"}
