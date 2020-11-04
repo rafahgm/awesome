@@ -7,7 +7,13 @@ local theme_path = gfs.get_configuration_dir().."themes/transparent/"
 
 local theme = {}
 
+
+theme.border_width = dpi(3)
+theme.border_focus = xrdb.color4
+theme.border_normal = "#000000"
+
 theme.useless_gap = dpi(5)
+
 -- Global
 theme.global = {
     m = 5,
@@ -24,6 +30,12 @@ theme.colors = {
     x7 = xrdb.color7,
     x8 = xrdb.color8,
     x9 = xrdb.color9,
+    x10 = xrdb.color10,
+    x11 = xrdb.color11,
+    x12 = xrdb.color12,
+    x13 = xrdb.color13,
+    x14 = xrdb.color14,
+    x15 = xrdb.color15,
     w = "#FEFEFE",
     t = "#FFFFFF01",
     b = "#0F0F0F",
