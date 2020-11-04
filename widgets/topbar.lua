@@ -111,7 +111,7 @@ local function make_power(s)
   
   power:buttons(gears.table.join(
   awful.button({}, 1, function()
-    if _G.root.elements.powermenu.show then _G.root.elements.powermenu.show() end
+    _G.root.elements.powermenu[s.index].visible = true
   end)
 ))
 
@@ -291,7 +291,7 @@ end
 
 return function()
   awful.screen.connect_for_each_screen(function(s)
-    if not _G.root.elements.utilities or not _G._G.root.elements.utilities[s.index] then make_utilities(s) end
+    if not _G.root.elements.utilities or not _G.root.elements.utilities[s.index] then make_utilities(s) end
     if not _G.root.elements.launcher or not _G.root.elements.launcher[s.index] then make_launcher(s) end
     if not _G.root.elements.date or not _G.root.elements.date[s.index] then make_date(s) end
     if not _G.root.elements.power or not _G.root.elements.power[s.index] then make_power(s) end
