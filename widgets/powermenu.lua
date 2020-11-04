@@ -4,9 +4,10 @@ local awful = require("awful")
 local gears = require("gears")
 local utils = require("utils")
 
-
 -- TODO: Fix color meaning, right now the colors are a bit mixed and doesnt reflect the action of the button
 -- TODO: Implement an semi transparent overlay that cover the whole screen and prevent clicking on ohter appliactions
+-- TODO: Implement an prompt asking for confirmation before doing the button action
+
 local function make_button(icon, text, background_color)
     local button_text = wibox.widget {
         widget = wibox.widget.textbox,
