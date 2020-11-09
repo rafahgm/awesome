@@ -1,6 +1,4 @@
 local awful = require("awful")
-
-local awful = require("awful")
 local utils = require("utils")
 local theme = require("beautiful")
 
