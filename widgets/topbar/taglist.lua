@@ -5,24 +5,26 @@ local gears = require("gears");
 local utils = require("utils");
 
 return function(s)
-    local all_tags = awful.screen.focused().tags
+    local all_tags = awful.screen.focused().tags;
     
     local function update_taglist(self, tag, index)
-      local name = all_tags[index].name
-      name = utils.pads_spaces_both(name, 3)
+      local name = all_tags[index].name;
+      local text_widget = self:get_children()[1]:get_children()[1];
+      text_widget:set_text(name);
       
       if tag.selected then
         -- Seletcted Tag
-        self.markup = utils.colorize_text(name, "#000000", "#FEFEFEFF")
+        self.bg = "#FEFEFE";
+        text_widget:set_markup(utils.colorize_text(name, "#000000"));
       elseif tag.urgent then
         -- Urgent tag
-        self.markup = utils.colorize_text(name, "#FF0000", "#FEFEFE50")
+        self.bg = theme.colors.x4;
       elseif #tag:clients() > 0 then
         -- If unselected tag have clients
-        self.markup = utils.colorize_text(name, "#FFFFFF", "#FEFEFE90")
+        self.bg = "#FEFEFE90";
       else
         -- Rest of the tags (unseletcted and empty)
-        self.markup = utils.colorize_text(name, "#FFFFFF", "#FEFEFE40")
+        self.bg = "#FEFEFE40"
       end
     end
     
@@ -35,9 +37,18 @@ return function(s)
       layout = wibox.layout.fixed.horizontal,
       buttons = taglist_buttons,
       widget_template = {
-        widget = wibox.widget.textbox,
-        font = theme.font,
+        widget = wibox.container.background,
         forced_height = theme.topbar.h,
+        forced_width = 50,
+        bg = "#FF0000",
+        {
+          layout = wibox.container.place,
+          halign = "center",
+          {
+            widget = wibox.widget.textbox,
+            text = "w",
+          }
+        },
         create_callback = function(self, tag, index, _)
           self.align = "center"
           self.valign = "center"
@@ -54,7 +65,7 @@ return function(s)
       type = "menu",
       visible = true,
       height = theme.topbar.h,
-      width = 362,
+      width = 9 * 50,
       bg = "#00FFFF00",
       x = s.workarea.x + theme.global.m + theme.global.m + theme.topbar.w,
       y = theme.global.m,
