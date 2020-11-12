@@ -67,7 +67,7 @@ return function(s)
       height = theme.topbar.h,
       width = 9 * 50,
       bg = "#00FFFF00",
-      x = s.workarea.x + theme.global.m + theme.global.m + theme.topbar.w,
+      x = s.workarea.x + theme.global.m,
       y = theme.global.m,
       struts = {top = theme.global.m},
     })
