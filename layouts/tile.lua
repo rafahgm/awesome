@@ -9,10 +9,7 @@ tile.name = "tile";
 local function do_tile(p)
     local cls = p.clients;
     --    utils.obj_debug(p);
-    
-    if _G.preselect.widget then
-        
-    end
+
     print(gears.debug.dump_return(p))
     for k, c in ipairs(cls) do
         -- utils.xmessage(c.name);

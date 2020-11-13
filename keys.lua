@@ -244,7 +244,11 @@ _G.client.connect_signal("request::default_keybindings", function()
         {description = "(un)maximize horizontally", group = "client"}),
         -- Preselect
         awful.key({modkey, shiftkey}, "p", function(c)
-            preselect.add_preselect(c) 
+            preselect.presel(c, "horizontal");
+        end),
+        
+        awful.key({modkey, shiftkey}, "o", function(c)
+            preselect.presel(c, "vertical");
         end),
     })
 end)

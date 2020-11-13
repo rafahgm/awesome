@@ -8,9 +8,9 @@ local theme_path = gfs.get_configuration_dir().."themes/transparent/"
 local theme = {}
 
 
-theme.border_width = 3;
+theme.border_width = 1;
 theme.border_focus = xrdb.color4
-theme.border_normal = "#000000"
+theme.border_normal = "#FFFFFF"
 
 theme.useless_gap = dpi(5)
 
