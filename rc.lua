@@ -9,8 +9,10 @@ require("awful.autofocus")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
 local utils = require("utils")
+local tile = require("layouts.tile");
 
 _G.root.elements = {}
+_G.preselect = {}
 
 -- {{{ Error handling
 naughty.connect_signal("request::display_error", function(message, startup)
@@ -25,7 +27,6 @@ end)
 -- Autostart programs
 awful.spawn.with_shell("~/.config/awesome/autorun.sh")
 
-
 -- {{{ Themes
 local themes = {"default", "gtk", "sky", "xresources", "zenburn", "transparent"}
 local theme_name = themes[6]
@@ -37,18 +38,8 @@ beautiful.init(gears.filesystem.get_configuration_dir().."themes/"..theme_name..
 _G.tag.connect_signal("request::default_layouts", function()
     awful.layout.append_default_layouts({
         awful.layout.suit.floating,
-        awful.layout.suit.tile,
-        awful.layout.suit.tile.left,
-        awful.layout.suit.tile.bottom,
-        awful.layout.suit.tile.top,
         awful.layout.suit.fair,
-        awful.layout.suit.fair.horizontal,
-        awful.layout.suit.spiral,
-        awful.layout.suit.spiral.dwindle,
-        awful.layout.suit.max,
-        awful.layout.suit.max.fullscreen,
-        awful.layout.suit.magnifier,
-        awful.layout.suit.corner.nw,
+        tile,
     })
 end)
 -- }}}
@@ -68,7 +59,7 @@ _G.screen.connect_signal("request::wallpaper", function(s)
 end)
 
 _G.screen.connect_signal("request::desktop_decoration", function(s)
-    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[2])
+    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[3])
 end)
 
 -- }}}
