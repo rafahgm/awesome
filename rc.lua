@@ -47,19 +47,21 @@ end)
 -- {{{ Wallpaper
 
 _G.screen.connect_signal("request::wallpaper", function(s)
-    -- Wallpaper
-    if beautiful.wallpaper then
-        local wallpaper = beautiful.wallpaper
-        -- If wallpaper is a function, call it with the screen
-        if type(wallpaper) == "function" then
-            wallpaper = wallpaper(s)
+    local wallpapers = {}
+    
+    awful.spawn.easy_async("ls /home/rafael/.local/share/wallpapers", function(stdout)
+        for s in stdout:gmatch("[^\r\n]+") do
+            table.insert(wallpapers, s)
         end
-        gears.wallpaper.maximized(wallpaper, s, true)
+        print(wallpapers[1])
+        local random = math.random(#wallpapers)
+        gears.wallpaper.maximized("/home/rafael/.local/share/wallpapers/" .. wallpapers[random], s, true)
     end
+    )
 end)
 
 _G.screen.connect_signal("request::desktop_decoration", function(s)
-    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[3])
+    awful.tag({ "1", "2", "3", "4", "5"}, s, awful.layout.layouts[2])
 end)
 
 -- }}}
@@ -70,7 +72,8 @@ require("keys")
 require("rules")
 require("titlebars")
 require("notifications")
-require("widgets.topbar")()
-require("widgets.volumeosd")()
-require("widgets.powermenu")()
-require("workers.battery")
+-- require("widgets.topbar")()
+require("widgets.unified_topbar")()
+-- require("widgets.volumeosd")()
+-- require("widgets.powermenu")()
+-- require("workers.battery")
