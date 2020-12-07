@@ -16,7 +16,7 @@ theme.useless_gap = dpi(5)
 
 -- Global
 theme.global = {
-    m = 5,
+    m = dpi(5),
 }
 -- Colors
 theme.colors = {
