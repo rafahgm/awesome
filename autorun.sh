@@ -7,5 +7,6 @@ function run {
     fi
 }
 
-run picom --config ~/.config/picom/conf
+run picom --config ~/.config/picom.conf --experimental-backends
 run mpd
+run ulanuncher
