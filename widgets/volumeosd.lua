@@ -165,8 +165,8 @@ local make_vol_osd = function(s)
     
     _G.awesome.connect_signal("module::volume_osd:restart",function() hide_osd:again() end)
 
-    -- Signal to set widget value and show if hidden
-    _G.awesome.connect_signal("module::volume_osd", function(volume)
+    -- Function to change volume
+    local set_volume = function(volume) 
         if not volume_osd_overlay.visible then
             volume_osd_overlay.visible = true
         end
@@ -174,11 +174,12 @@ local make_vol_osd = function(s)
         -- Restart hide timer
         hide_osd:again()
         vol_osd_slider:set_value(volume)
-    end)
+    end
     
     _G.root.elements.volume_osd = _G.root.elements.volume_osd or {}
     _G.root.elements.volume_osd.visible = false
     _G.root.elements.volume_osd[s.index] = volume_osd_overlay
+    _G.root.elements.volume_osd.set_volume = set_volume
 end
 
 return function()
