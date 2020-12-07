@@ -1,6 +1,7 @@
 local awful = require('awful');
 local wibox = require('wibox');
 local theme = require('themes.transparent.definitions');
+local taglist = require("widgets.unified_topbar.taglist");
 
 local widget_margin = 5;
 
@@ -21,19 +22,54 @@ local function battery()
         text = theme.icons.battery.discharging.full,
         font = theme.fonts.im,
     }
+    local battery_tooltip = awful.tooltip{
+        objects = {battery},
+        text = "Battery info",
+        align = "bottom",
+        mode = "outside",
+        bg = "#FFFFFF70"
+    }
 
+    battery:connect_signal('mouse::enter', function()
+        awful.spawn.easy_async("cat /sys/class/power_supply/BAT0/capacity", function(stdout)
+            battery_tooltip.text = stdout
+        end)
+    end)
     return battery
 end
 
 local function volume()
     local volume = wibox.widget {
-        
-          widget = wibox.widget.textbox,
-          text = theme.icons.volume.high,
-          font = theme.fonts.im,
+        widget = wibox.widget.textbox,
+        text = theme.icons.volume.high,
+        font = theme.fonts.im,
     }
-
+    local battery_tooltip = awful.tooltip{
+        text = "Battery info",
+        align = "bottom",
+        mode = "outside",
+        bg = "#FFFFFF70"
+    }
+    battery_tooltip:add_to_object(volume)
     return volume
+end
+
+local function wireless() 
+    local wifi = wibox.widget {
+        
+        widget = wibox.widget.textbox,
+        text = theme.icons.wifi,
+        font = theme.fonts.im,
+    }
+    local battery_tooltip = awful.tooltip{
+        objects = {wifi},
+        text = "Battery info",
+        align = "bottom",
+        mode = "outside",
+        bg = "#FFFFFF70"
+    }
+    
+    return wifi
 end
 
 local function topbar(screen)
@@ -53,11 +89,24 @@ local function topbar(screen)
     
     container:setup {
         layout = wibox.layout.align.horizontal,
-        nil,
+        {
+            layout = wibox.layout.fixed.horizontal,
+            {
+                layout = wibox.container.margin,
+                right = widget_margin,
+                taglist(screen)
+            }
+        },
         nil,
         -- Right widgets
         {
             layout = wibox.layout.fixed.horizontal,
+            {
+                layout = wibox.container.margin,
+                left = widget_margin,
+                right = widget_margin,
+                wireless()
+            },
             {
                 layout = wibox.container.margin,
                 left = widget_margin,
