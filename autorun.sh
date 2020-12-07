@@ -9,4 +9,4 @@ function run {
 
 run picom --config ~/.config/picom.conf --experimental-backends
 run mpd
-run ulanuncher
+# run ulanuncher

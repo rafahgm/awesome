@@ -32,7 +32,7 @@ theme.colors = {
 -- Fonts
 theme.font = "Roboto 14"
 theme.fonts = {
-    im = "Material Design Icons Desktop 18",
+    im = "Material Design Icons Desktop 16",
     il = "Material Design Icons Desktop 48",
 }
 

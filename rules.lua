@@ -47,6 +47,11 @@ ruled.client.connect_signal("request::rules", function()
         rule_any   = { type = { "normal", "dialog" } },
         properties = { titlebars_enabled = false }
     }
+    -- Rule to remove border from ulauncher
+    ruled.client.append_rule {
+        rule = { class = "Ulauncher" },
+        properties = { border_width = 0 }
+    }
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- ruled.client.append_rule {

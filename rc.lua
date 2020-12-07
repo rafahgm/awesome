@@ -48,16 +48,12 @@ end)
 
 _G.screen.connect_signal("request::wallpaper", function(s)
     local wallpapers = {}
-    
     awful.spawn.easy_async("ls /home/rafael/.local/share/wallpapers", function(stdout)
         for s in stdout:gmatch("[^\r\n]+") do
             table.insert(wallpapers, s)
         end
-        print(wallpapers[1])
-        local random = math.random(#wallpapers)
-        gears.wallpaper.maximized("/home/rafael/.local/share/wallpapers/" .. wallpapers[random], s, true)
-    end
-    )
+        gears.wallpaper.maximized("/home/rafael/.local/share/wallpapers/" .. wallpapers[math.random(#wallpapers)], s, true)
+    end)
 end)
 
 _G.screen.connect_signal("request::desktop_decoration", function(s)
