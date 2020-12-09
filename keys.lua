@@ -9,7 +9,7 @@ local altkey = "Mod1";
 local ctrlkey = "Control";
 local shiftkey = "Shift";
 
-local terminal = "alacritty";
+local terminal = "kitty";
 local editor = os.getenv("EDITOR") or "nano";
 local editor_cmd = terminal .. " -e " .. editor;
 
