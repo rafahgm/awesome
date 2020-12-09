@@ -156,8 +156,7 @@ local make_vol_osd = function(s)
         timeout = 2,
         autostart = true,
         callback = function()
-            _G.root.elements.volume_osd.visible = false
-            _G.root.elements.volume_osd[s.index].visible = false
+            Elements.volume_osd.visible = false
         end
     }
     
@@ -176,14 +175,12 @@ local make_vol_osd = function(s)
         vol_osd_slider:set_value(volume)
     end
     
-    _G.root.elements.volume_osd = _G.root.elements.volume_osd or {}
-    _G.root.elements.volume_osd.visible = false
-    _G.root.elements.volume_osd[s.index] = volume_osd_overlay
-    _G.root.elements.volume_osd.set_volume = set_volume
+    Elements.volume_osd= volume_osd_overlay
+    Elements.volume_osd.set_volume = set_volume
 end
 
 return function()
     awful.screen.connect_for_each_screen(function(s)
-        if not _G.root.elements.volume_osd or not _G.root.elements.volume_osd[s.index] then make_vol_osd(s) end
+        if not Elements.volume_osd then make_vol_osd(s) end
     end)
 end

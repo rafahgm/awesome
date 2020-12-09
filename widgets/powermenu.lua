@@ -64,8 +64,8 @@ end
 local function make_powermenu(s)
     local width = 1000
     local height = 250
-    local y = (s.workarea.height / 2) - (height / 2) + 40
-    local x = (s.workarea.width / 2) - (width  / 2) + 100
+    local y = (s.workarea.height / 2) - (height / 2)
+    local x = (s.workarea.width / 2) - (width  / 2)
     
     local splash = wibox {
         screen = s,
@@ -108,11 +108,11 @@ local function make_powermenu(s)
         buttons
     }
     
-    _G.root.elements.powermenu = splash
+    Elements.powermenu = splash
 end
 
 return function()
     awful.screen.connect_for_each_screen(function(s)
-        if not _G.root.elements.powermenu then make_powermenu(s) end
+        if Elements.powermenu then make_powermenu(s) end
     end)
 end

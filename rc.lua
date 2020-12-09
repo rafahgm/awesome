@@ -8,11 +8,9 @@ local awful = require("awful")
 require("awful.autofocus")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
-local utils = require("utils")
-local tile = require("layouts.tile");
 
-_G.root.elements = {}
-_G.preselect = {}
+
+Elements = {}
 
 -- {{{ Error handling
 naughty.connect_signal("request::display_error", function(message, startup)
@@ -28,8 +26,8 @@ end)
 awful.spawn.with_shell("~/.config/awesome/autorun.sh")
 
 -- {{{ Themes
-local themes = {"default", "gtk", "sky", "xresources", "zenburn", "transparent"}
-local theme_name = themes[6]
+local themes = {"nord", "transparent"}
+local theme_name = themes[1]
 beautiful.init(gears.filesystem.get_configuration_dir().."themes/"..theme_name.."/theme.lua")
 -- }}}
 
@@ -37,9 +35,8 @@ beautiful.init(gears.filesystem.get_configuration_dir().."themes/"..theme_name..
 -- Table of layouts to cover with awful.layout.inc, order matters.
 _G.tag.connect_signal("request::default_layouts", function()
     awful.layout.append_default_layouts({
-        awful.layout.suit.floating,
-        awful.layout.suit.fair,
-        tile,
+        awful.layout.suit.tile,
+        awful.layout.suit.floating
     })
 end)
 -- }}}
@@ -47,17 +44,11 @@ end)
 -- {{{ Wallpaper
 
 _G.screen.connect_signal("request::wallpaper", function(s)
-    local wallpapers = {}
-    awful.spawn.easy_async("ls /home/rafael/.local/share/wallpapers", function(stdout)
-        for s in stdout:gmatch("[^\r\n]+") do
-            table.insert(wallpapers, s)
-        end
-        gears.wallpaper.maximized("/home/rafael/.local/share/wallpapers/" .. wallpapers[math.random(#wallpapers)], s, true)
-    end)
+   gears.wallpaper.maximized(beautiful.wallpapers[math.random(#beautiful.wallpapers)], s, true)
 end)
 
 _G.screen.connect_signal("request::desktop_decoration", function(s)
-    awful.tag({ "1", "2", "3", "4", "5"}, s, awful.layout.layouts[2])
+    awful.tag({ "1", "2", "3", "4", "5"}, s, awful.layout.layouts[1])
 end)
 
 -- }}}
@@ -70,7 +61,7 @@ require("titlebars")
 require("notifications")
 -- require("widgets.topbar")()
 require("widgets.unified_topbar")()
-require("widgets.volumeosd")()
-require("widgets.powermenu")()
+-- require("widgets.volumeosd")()
+-- require("widgets.powermenu")()
 -- require("workers.battery")
 require('widgets.notification_center')()
