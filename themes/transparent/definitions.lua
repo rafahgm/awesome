@@ -32,6 +32,10 @@ theme.colors = {
 -- Fonts
 theme.font = "Roboto 14"
 theme.fonts = {
+    rs = "Roboto 12",
+    rsb = "Roboto Bold 12",
+    rr = "Roboto 14",
+    rrb = "Roboto Bold 14",
     im = "Material Design Icons Desktop 16",
     il = "Material Design Icons Desktop 48",
 }
@@ -63,7 +67,9 @@ theme.icons = {
         off = "󰖁",
         up = "󰝝",
         down = "󰝞"
-    }
+    },
+    chevron_double_left = "󰄽",
+    bell = "󰂚",
 }
 
 theme.topbar = {

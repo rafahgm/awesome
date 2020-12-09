@@ -2,6 +2,8 @@ local awful = require('awful');
 local wibox = require('wibox');
 local theme = require('themes.transparent.definitions');
 local taglist = require("widgets.unified_topbar.taglist");
+local gears = require('gears');
+local animation = require('widgets.animation_test.animation');
 
 local widget_margin = 5;
 
@@ -72,14 +74,43 @@ local function wireless()
     return wifi
 end
 
+local function notifications()
+    local notif = wibox.widget {
+        
+        widget = wibox.widget.textbox,
+        text = theme.icons.bell,
+        font = theme.fonts.im,
+    }
+
+    notif:buttons(gears.table.join(notif:buttons(), awful.button({}, 1, nil, function() _G.root.elements.notif_center.visible = true end)))
+
+    return notif
+end
+
+local function power_button() 
+    local power_button = wibox.widget {
+        
+        widget = wibox.widget.textbox,
+        text = theme.icons.power,
+        font = theme.fonts.im,
+    }
+
+    power_button:buttons(gears.table.join(power_button:buttons(), awful.button({}, 1, nil, function()
+        _G.root.elements.animated_box.visible = not _G.root.elements.animated_box.visible
+        animation.start_animation(_G.root.elements.animated_box)
+    end)))
+
+    return power_button
+end
+
 local function topbar(screen)
     local container = wibox {
         screen = screen,
         width = screen.workarea.width -  2 * theme.global.m,
         height = theme.topbar.h,
         visible = true,
-        type = "utility",
-        bg = "#FFFFFF70",
+        type = "dock",
+        bg = "#FFFFFF50",
         valign = "center",
         x = screen.workarea.x + theme.global.m,
         y = theme.global.m,
@@ -123,9 +154,22 @@ local function topbar(screen)
             {
                 layout = wibox.container.margin,
                 left = widget_margin,
-                right = widget_margin + 5,
+                right = widget_margin,
+                notifications()
+                
+            },
+            {
+                layout = wibox.container.margin,
+                left = widget_margin,
+                right = widget_margin,
                 clock()
                 
+            },
+            {
+                layout = wibox.container.margin,
+                left = widget_margin,
+                right = widget_margin + 5,
+                power_button()
             }
             
         }

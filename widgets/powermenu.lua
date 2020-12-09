@@ -72,7 +72,7 @@ local function make_powermenu(s)
         ontop = true,
         visible = false,
         type = "splash",
-        bg = theme.colors.x4,
+        bg = "#00000070",
         height = height,
         width = width,
         x = x,
@@ -108,12 +108,11 @@ local function make_powermenu(s)
         buttons
     }
     
-    _G.root.elements.powermenu = _G.root.elements.powermenu or {}
-    _G.root.elements.powermenu[s.index] = splash
+    _G.root.elements.powermenu = splash
 end
 
 return function()
     awful.screen.connect_for_each_screen(function(s)
-        if not _G.root.elements.powermenu or not _G.root.elements.powermenu[s.index] then make_powermenu(s) end
+        if not _G.root.elements.powermenu then make_powermenu(s) end
     end)
 end
