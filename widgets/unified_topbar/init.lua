@@ -1,16 +1,17 @@
 local awful = require('awful');
 local wibox = require('wibox');
 local theme = require('themes.transparent.definitions');
+local nord = require('theme_engine');
 local taglist = require("widgets.unified_topbar.taglist");
 local gears = require('gears');
 local animation = require('widgets.animation_test.animation');
 
-local widget_margin = 5;
+local widget_margin = 10;
 
 local function clock()
     local clock = wibox.widget {
         widget = wibox.widget.textclock,
-        font = theme.font,
+        font = nord.fonts.inter.medium.regular,
         refresh = 60,
         format = '%H:%M',
     }
@@ -21,8 +22,8 @@ end
 local function battery()
     local battery = wibox.widget {
         widget = wibox.widget.textbox,
-        text = theme.icons.battery.discharging.full,
-        font = theme.fonts.im,
+        text = nord.icons.fontawesome.battery_charging,
+        font = nord.fonts.fontawesome.solid.medium,
     }
     local battery_tooltip = awful.tooltip{
         objects = {battery},
@@ -43,8 +44,8 @@ end
 local function volume()
     local volume = wibox.widget {
         widget = wibox.widget.textbox,
-        text = theme.icons.volume.high,
-        font = theme.fonts.im,
+        text = nord.icons.fontawesome.volume.max,
+        font = nord.fonts.fontawesome.solid.medium,
     }
     local battery_tooltip = awful.tooltip{
         text = "Battery info",
@@ -60,8 +61,8 @@ local function wireless()
     local wifi = wibox.widget {
         
         widget = wibox.widget.textbox,
-        text = theme.icons.wifi,
-        font = theme.fonts.im,
+        text = nord.icons.fontawesome.wifi,
+        font = nord.fonts.fontawesome.solid.medium,
     }
     local battery_tooltip = awful.tooltip{
         objects = {wifi},
@@ -74,15 +75,20 @@ local function wireless()
     return wifi
 end
 
-local function notifications()
+local function notifications(screen)
     local notif = wibox.widget {
         
         widget = wibox.widget.textbox,
-        text = theme.icons.bell,
-        font = theme.fonts.im,
+        text = nord.icons.fontawesome.bell,
+        font = nord.fonts.fontawesome.solid.medium,
     }
 
-    notif:buttons(gears.table.join(notif:buttons(), awful.button({}, 1, nil, function() _G.root.elements.notif_center.visible = true end)))
+    notif:buttons(gears.table.join(notif:buttons(), awful.button({}, 1, nil, function()
+        -- Handle animation
+       Elements.notif_center.visible = true;
+       Elements.notif_center.x = screen.workarea.width;
+       animation.start_animation(Elements.notif_center, 300, {x = screen.workarea.width - Elements.notif_center.width}, 'outExpo')
+    end)))
 
     return notif
 end
@@ -91,26 +97,25 @@ local function power_button()
     local power_button = wibox.widget {
         
         widget = wibox.widget.textbox,
-        text = theme.icons.power,
-        font = theme.fonts.im,
+        text = nord.icons.fontawesome.power,
+        font = nord.fonts.fontawesome.solid.medium,
     }
 
     power_button:buttons(gears.table.join(power_button:buttons(), awful.button({}, 1, nil, function()
-        _G.root.elements.animated_box.visible = not _G.root.elements.animated_box.visible
-        animation.start_animation(_G.root.elements.animated_box)
+        Elements.powermenu.visible = not Elements.powermenu.visible
     end)))
 
     return power_button
 end
 
-local function topbar(screen)
+local function make_topbar(screen)
     local container = wibox {
         screen = screen,
         width = screen.workarea.width -  2 * theme.global.m,
         height = theme.topbar.h,
         visible = true,
-        type = "dock",
-        bg = "#FFFFFF50",
+        type = "normal",
+        bg = nord.colors.c0 .. "AA",
         valign = "center",
         x = screen.workarea.x + theme.global.m,
         y = theme.global.m,
@@ -155,7 +160,7 @@ local function topbar(screen)
                 layout = wibox.container.margin,
                 left = widget_margin,
                 right = widget_margin,
-                notifications()
+                notifications(screen)
                 
             },
             {
@@ -178,7 +183,5 @@ local function topbar(screen)
 end
 
 return function()
-    awful.screen.connect_for_each_screen(function(s)
-        if not _G.root.elements.topbar or not _G.root.elements.topbar[s.index] then topbar(s) end
-    end)
+    awful.screen.connect_for_each_screen(make_topbar)
 end

@@ -37,8 +37,8 @@ theme.fonts = {
       regular ="Inter Regular 12"
     },
     large = {
-      bold = "Inter Bold 14",
-      regular ="Inter Regular 14"
+      bold = "Inter Bold 16",
+      regular ="Inter Regular 16"
     }
   },
   fontawesome = {
@@ -59,6 +59,7 @@ theme.font = theme.fonts.inter.medium.regular;
 theme.icons = {
   fontawesome = {
     bell = "",
+    cricle = "",
     battery_charging = "",
     power = "",
     wifi = "",
@@ -73,6 +74,7 @@ theme.icons = {
 
 theme.wallpapers = {
   wallpapers_dir.."mountains.png",
+  wallpapers_dir.."mountain_bright.png",
 }
 
 return theme;

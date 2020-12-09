@@ -1,29 +1,36 @@
 local awful = require("awful");
 local wibox = require("wibox");
-local theme = require("beautiful");
+local theme = require("themes.transparent.definitions");
 local gears = require("gears");
 local utils = require("utils");
+local nord = require('theme_engine');
 
 return function(s)
     local all_tags = awful.screen.focused().tags;
     
     local function update_taglist(self, tag, index)
-      local name = all_tags[index].name;
+      -- local name = all_tags[index].name;
       local text_widget = self:get_children()[1]:get_children()[1];
-      text_widget:set_text(name);
+      -- text_widget:set_text(name);
       
       if tag.selected then
         -- Seletcted Tag
-        self.bg = "#FEFEFEFF";
-        text_widget:set_markup(utils.colorize_text(name, "#000000"));
+        self.bg = nord.colors.c4;
+        text_widget:set_font(nord.fonts.fontawesome.solid.medium)
+        text_widget:set_markup(utils.colorize_text(nord.icons.fontawesome.cricle, nord.colors.c0));
       elseif tag.urgent then
         -- Urgent tag
-        self.bg = theme.colors.x4;
+        self.bg = nord.colors.c11;
       elseif #tag:clients() > 0 then
         -- If unselected tag have clients
-        self.bg = "#FEFEFE90";
+        self.bg = nil;
+        text_widget:set_font(nord.fonts.fontawesome.solid.medium)
+        text_widget:set_markup(utils.colorize_text(nord.icons.fontawesome.cricle, nord.colors.c4));
       else
-        self.bg = "#FFFFFF00";
+        -- Empty and unselected
+        self.bg = nil;
+        text_widget:set_font(nord.fonts.fontawesome.regular.medium)
+        text_widget:set_markup(utils.colorize_text(nord.icons.fontawesome.cricle, nord.colors.c4));
       end
     end
     

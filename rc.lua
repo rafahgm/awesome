@@ -44,7 +44,8 @@ end)
 -- {{{ Wallpaper
 
 _G.screen.connect_signal("request::wallpaper", function(s)
-   gears.wallpaper.maximized(beautiful.wallpapers[math.random(#beautiful.wallpapers)], s, true)
+--    gears.wallpaper.maximized(beautiful.wallpapers[math.random(#beautiful.wallpapers)], s, true)
+   gears.wallpaper.maximized(beautiful.wallpapers[2], s, true)
 end)
 
 _G.screen.connect_signal("request::desktop_decoration", function(s)
